@@ -7,6 +7,9 @@
 .buildlog/
 .history
 
+# firebase secret key
+flutterhack-83b12-firebase-adminsdk-fbsvc-acc6039fba.json
+
 # Node.js related
 node_modules/
 
