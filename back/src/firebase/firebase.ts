@@ -1,10 +1,21 @@
 import * as admin from "firebase-admin";
-import { ServiceAccount } from "firebase-admin";
+import dotenv from "dotenv";
+import fs from "fs";
 
-import serviceAccount from "../../flutterhack-83b12-firebase-adminsdk-fbsvc-acc6039fba.json";
+dotenv.config();
+
+const serviceAccountPath = process.env.FIREBASE_KEY_PATH;
+
+if (!serviceAccountPath) {
+    throw new Error(".envにキーがない");
+}
+
+const serviceAccount = JSON.parse(
+    fs.readFileSync(serviceAccountPath, "utf-8")
+);
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as ServiceAccount),
+    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
 });
 
 export const db = admin.firestore();

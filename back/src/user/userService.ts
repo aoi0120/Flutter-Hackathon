@@ -14,3 +14,12 @@ export const createUser = async ( Token: string ) => {
         }
     );
 };
+
+export const updateName = async ( Token: string, newName:string ) => {
+    const decoded = await auth.verifyIdToken(Token);
+    const uid = decoded.uid;
+
+    return await db.collection('users').doc(uid).update(
+        { name: newName }
+    );
+}
