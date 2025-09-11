@@ -21,6 +21,10 @@ export const storeLogin = async (email: string, pass: string) => {
     };
 
     const doc = checkEmail.docs[0];
+
+    if (!doc) {
+        throw new Error("ユーザーデータが見つかりません");
+    }
     const data = doc.data();
     
     const checkPass = await bcrypt.compare(pass, data.pass);
