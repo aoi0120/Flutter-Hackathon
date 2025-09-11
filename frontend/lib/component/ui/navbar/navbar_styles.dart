@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-class NavBarStyles {
-
+class AppNavBarStyles {
   static const double height = 100;
 
   static const double cornerRadius = 0;
@@ -12,4 +11,3 @@ class NavBarStyles {
   static const Color color = Colors.white;
   static const Color shadowColor = Color(0x33000000);
 }
-
