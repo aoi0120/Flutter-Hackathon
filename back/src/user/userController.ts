@@ -29,7 +29,7 @@ router.patch("/", async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'tokenがありません'});
     }
 
-    if (!token) {
+    if (!newName) {
         return res.status(400).json({ message: 'newNameがありません'});
     }
 
