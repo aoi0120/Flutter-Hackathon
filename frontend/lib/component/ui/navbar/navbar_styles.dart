@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppNavBarStyles {
+class NavBarStyles {
 
   static const double height = 100;
 
