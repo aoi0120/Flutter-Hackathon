@@ -1,49 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'layout.dart';
-import '../../component/ui/navbar/navbar.dart';
+import './_component/gacha/gacha.dart';
 
-class TopPage extends StatefulWidget {
+class TopPage extends StatelessWidget {
   const TopPage({super.key});
-  @override
-  State<TopPage> createState() => _TopPageState();
-}
-
-class _TopPageState extends State<TopPage> {
-  int _indexFromLocation(BuildContext context) {
-    final loc = GoRouterState.of(context).uri.toString();
-    if (loc.startsWith('/')) return 1;
-    if (loc.startsWith('/')) return 2;
-    return 0;
-  }
-
-  void _onBottomTap(int i) {
-    switch (i) {
-      case 0:
-        context.go('/');
-        break;
-    //TODO: ルーティングの設定
-      case 1:
-        // context.go('/');
-        break;
-      case 2:
-        // context.go('/');
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _indexFromLocation(context);
-
-    return Scaffold(
-      backgroundColor: TopLayout.bgColor,
-      body: const SizedBox.shrink(),
-      bottomNavigationBar: AppNavBar(
-        currentIndex: currentIndex,
-        onTap: _onBottomTap,
-      ),
-    );
+    return const Gacha(); 
   }
 }
 
