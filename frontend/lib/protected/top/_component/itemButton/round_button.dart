@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'item_button_style.dart';
 
 class RoundButton extends StatelessWidget {
-  const RoundButton({super.key, this.onPressed});
+  const RoundButton({super.key, required this.iconAsset, this.onPressed});
 
+  final String iconAsset;
   final VoidCallback? onPressed;
 
   @override
@@ -15,7 +16,16 @@ class RoundButton extends StatelessWidget {
         color: ItemButtonStyle.buttonColor,
         shape: const CircleBorder(),
         clipBehavior: Clip.antiAlias,
-        child: InkWell(onTap: onPressed),
+        child: InkWell(
+          onTap: onPressed,
+          child: Center(
+            child: Image.asset(
+              iconAsset,
+              width: ItemButtonStyle.iconSize,
+              height: ItemButtonStyle.iconSize,
+            ),
+          ),
+        ),
       ),
     );
   }

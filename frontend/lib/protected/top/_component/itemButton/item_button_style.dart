@@ -12,8 +12,8 @@ class ItemButtonStyle {
   static const double buttonSize = 60.0; // 直径
   static const double iconSize = 30.0; // アイコンのサイズ
   static const double spacing = 8.0; // ボタンとテキストの間隔
-  static const Color buttonColor = Colors.blue; // ボタンカラー
+  static const Color buttonColor = Colors.white; // ボタンカラー
 
-  // アイコン画像
-  // static const
+  // アイコン画像(３点リーダー)
+  static const String ellipsesIcon = 'assets/images/ellipses.png';
 }
