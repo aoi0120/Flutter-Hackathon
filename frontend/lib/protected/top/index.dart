@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './_component/gacha/gacha.dart';
-import './_component/gacha/item_button.dart';
+import '_component/itemButton/item_button.dart';
 import './_component/gachabox/gachabox.dart';
 import './_component/gachabar/gachabar.dart';
 import './_component/gachabar/gachabar_styles.dart';
