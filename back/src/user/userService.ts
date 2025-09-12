@@ -33,3 +33,48 @@ export const updateName = async ( Token: string, newName:string ) => {
         { name: newName }
     );
 }
+
+export const addTicket = async ( token: string, ticketUuid:string ) => {
+    const decoded = await auth.verifyIdToken(token);
+    const uid = decoded.uid;
+
+    return await db.collection('users').doc(uid).update({
+        tickets:  FieldValue.arrayUnion( ticketUuid )
+    });
+};
+
+export const userHaveTickets = async ( token: string,) => {
+    const decoded = await auth.verifyIdToken(token);
+    const uid = decoded.uid;
+
+    const doc = await db.collection('users').doc(uid).get();
+
+    const tickets: string[] = doc.get("tickets") || [] ;
+
+    return tickets;
+}
+
+export const ticketsInfo = async ( userHaveTickets: string[] ) => {
+    if (userHaveTickets.length === 0) {
+        return ({ message: "所持チケットはありません" });
+    }
+    const getTickets = userHaveTickets.map( async (uuid: string) => {
+        const ticketDoc = await db.collection('tickets').doc(uuid).get();
+        if (ticketDoc.exists) {
+            return [uuid, ticketDoc.data()];
+        } else {
+            return [uuid, null]; // 存在しなかった場合
+        } 
+    });
+
+    const ticketsEntries = await Promise.all(getTickets);
+      // Object に変換して返す
+        const ticketsObject = ticketsEntries.reduce((acc, [uuid, data]) => {
+            if (data) {
+                acc[uuid as string] = data;
+            }
+            return acc;
+        }, {} as Record<string, any>);
+
+    return { message: "所持チケット取得成功", tickets: ticketsObject };
+}
