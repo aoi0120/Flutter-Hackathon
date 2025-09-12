@@ -42,4 +42,46 @@ router.patch("/", async (req: Request, res: Response) => {
     }
 });
 
+//所持チケット追加
+router.post("/:ticketUuid", async (req: Request, res: Response) => {
+    const { ticketUuid } = req.params;
+    const token = req.headers.authorization?.split('Bearer ')[1];
+
+    if (!token) {
+        return res.status(400).json({ message: 'tokenがありません'});
+    }
+
+    if (!ticketUuid) {
+        return res.status(400).json({ message: 'ticketUuidがありません'});
+    }
+
+    try {
+        const addTicket = await userService.addTicket( token, ticketUuid );
+        res.status(200).json({ message: `チケットID:${ ticketUuid }を所持チケットに追加しました。`, addTicket })
+    } catch (error) {
+        res.status(500).json({ message: "チケット追加に失敗しました" })
+    }
+})
+
+//所持チケット全表示
+router.get("/", async ( req: Request, res: Response) => {
+    const token = req.headers.authorization?.split('Bearer ')[1];
+
+    if (!token) {
+        return res.status(400).json({ message: 'tokenがありません'});
+    }
+
+    try {
+        const userHaveTickets = await userService.userHaveTickets( token );
+        if (!userHaveTickets) {
+            return res.status(400).json({ message: 'ticketsデータがありません'});
+        }
+        const ticketsInfo = await userService.ticketsInfo(userHaveTickets);
+        res.status(200).json({ message: "所持チケット全表示 成功", tickets: ticketsInfo.tickets });
+    } catch (error) {
+        res.status(500).json({ message: "所持チケット全表示 失敗" });
+        console.log(error)
+    }
+})
+
 export default router;
