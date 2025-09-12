@@ -9,7 +9,7 @@ router.post("/", async ( req: Request, res: Response ) => {
     const { rank_id, prize, expiration_at }  = req.body;
 
     if ( !rank_id || !prize || !expiration_at ) {
-        return res.status(400).json({ message: "必要な情報が抜けてます"});
+        return res.status(400).json({ message: "必要な情報が抜けています"});
     }
     const data = { rank_id, prize, expiration_at: new Date(expiration_at) };
 
