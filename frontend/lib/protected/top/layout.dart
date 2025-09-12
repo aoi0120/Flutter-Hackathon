@@ -12,4 +12,5 @@ class TopLayout {
   );
   static const String gachaAsset = 'assets/images/gachabox.png';
   static const String handleAsset = 'assets/images/handle.png';
+  static const String arrowAsset  = 'assets/images/arrow.png';
 }

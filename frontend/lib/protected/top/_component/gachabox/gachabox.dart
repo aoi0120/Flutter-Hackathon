@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../top/layout.dart';
+import '../arrow/arrow.dart';
 import 'gachabox_styles.dart';
+import 'rotatable_handle.dart';
 
 class GachaBox extends StatelessWidget {
   const GachaBox({super.key});
@@ -16,6 +18,7 @@ class GachaBox extends StatelessWidget {
         width: boxWidth,
         child: Stack(
           alignment: Alignment.center,
+          clipBehavior: Clip.none,
           children: [
             Image.asset(
               TopLayout.gachaAsset,
@@ -23,14 +26,12 @@ class GachaBox extends StatelessWidget {
               fit: BoxFit.contain,
             ),
 
+            Arrow(boxWidth: boxWidth),
+
             Positioned(
               right: GachaBoxStyles.handleRight,
               bottom: GachaBoxStyles.handleBottom,
-              child: Image.asset(
-                TopLayout.handleAsset,
-                width: boxWidth * GachaBoxStyles.handleWidthFactor,
-                fit: BoxFit.contain,
-              ),
+              child: RotatableHandle(boxWidth: boxWidth),
             ),
           ],
         ),
