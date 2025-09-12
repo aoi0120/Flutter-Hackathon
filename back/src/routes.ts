@@ -21,5 +21,9 @@ router.use('/ticket', ticketRoutes);
 import announceRoutes from './announce/announceController';
 router.use('/announce', announceRoutes);
 
+//gachaルートインポート
+import gachaRoutes from './gacha/gachaController';
+router.use('/gacha', gachaRoutes);
+
 
 export default router;

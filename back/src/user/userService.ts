@@ -1,5 +1,5 @@
 import { db, auth } from "../firebase/firebase";
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
 export const createUser = async ( Token: string ) => {
     const decoded = await auth.verifyIdToken(Token);
@@ -10,12 +10,18 @@ export const createUser = async ( Token: string ) => {
     const userRef = db.collection("users").doc(uid);
     const userSnap = await userRef.get();
 
+    const now = new Date();
+
+    // 25時間前
+    const gachaAt = new Date(now.getTime() - 25 * 60 * 60 * 1000);
+
     if (!userSnap.exists) {
         await userRef.set({
             name,
             create_at: FieldValue.serverTimestamp(),
             update_at: FieldValue.serverTimestamp(),
             tickets: [],
+            gacha_at: Timestamp.fromDate(gachaAt),
         });
         return { message: "新規登録完了"};
     } else {
