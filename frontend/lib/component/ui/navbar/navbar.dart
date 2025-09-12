@@ -3,19 +3,16 @@ import 'navbar_styles.dart';
 import 'navbar_item.dart';
 
 class NavBar extends StatelessWidget {
-  const NavBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
+  const NavBar({super.key, required this.currentIndex, required this.onTap});
 
   final int currentIndex;
   final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
-    final double topPad =
-        (NavBarStyles.bumpHeight - 12).clamp(0, 30).toDouble();
+    final double topPad = (NavBarStyles.bumpHeight - 12)
+        .clamp(0, 30)
+        .toDouble();
 
     return SizedBox(
       height: NavBarStyles.height,
@@ -106,12 +103,13 @@ class _NavBarShape extends StatelessWidget {
       builder: (_, c) {
         final size = Size(c.maxWidth, c.maxHeight);
         final path = _buildPath(size);
-        return PhysicalShape(
-          color: color,
-          shadowColor: shadowColor,
-          elevation: 10,
-          clipper: _PathClipper(path),
-          child: const SizedBox.expand(),
+        return CustomPaint(
+          size: size,
+          painter: _NavBarPainter(
+            path: path,
+            color: color,
+            shadowColor: shadowColor,
+          ),
         );
       },
     );
@@ -129,9 +127,17 @@ class _NavBarShape extends StatelessWidget {
       ..lineTo(0, h - r)
       ..arcToPoint(Offset(r, h), radius: Radius.circular(r), clockwise: false)
       ..lineTo(w - r, h)
-      ..arcToPoint(Offset(w, h - r), radius: Radius.circular(r), clockwise: false)
+      ..arcToPoint(
+        Offset(w, h - r),
+        radius: Radius.circular(r),
+        clockwise: false,
+      )
       ..lineTo(w, r)
-      ..arcToPoint(Offset(w - r, 0), radius: Radius.circular(r), clockwise: false)
+      ..arcToPoint(
+        Offset(w - r, 0),
+        radius: Radius.circular(r),
+        clockwise: false,
+      )
       ..lineTo(cx - bumpRadius, 0)
       ..quadraticBezierTo(cx, -bumpHeight, cx + bumpRadius, 0)
       ..lineTo(r, 0)
@@ -139,14 +145,32 @@ class _NavBarShape extends StatelessWidget {
   }
 }
 
-class _PathClipper extends CustomClipper<Path> {
-  const _PathClipper(this._path);
-  final Path _path;
+class _NavBarPainter extends CustomPainter {
+  _NavBarPainter({
+    required this.path,
+    required this.color,
+    required this.shadowColor,
+  });
+
+  final Path path;
+  final Color color;
+  final Color shadowColor;
 
   @override
-  Path getClip(Size size) => _path;
+  void paint(Canvas canvas, Size size) {
+    // 上方向にだけ影を描画
+    canvas.drawShadow(
+      path.shift(const Offset(0, -3)), // yをマイナス方向にずらして影を上へ
+      shadowColor,
+      12.0, // ぼかし半径を強める
+      false,
+    );
+
+    // 本体の塗り
+    final paint = Paint()..color = color;
+    canvas.drawPath(path, paint);
+  }
 
   @override
-  bool shouldReclip(covariant _PathClipper old) => false; 
+  bool shouldRepaint(covariant _NavBarPainter old) => false;
 }
-

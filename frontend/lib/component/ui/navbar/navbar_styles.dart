@@ -10,6 +10,6 @@ class NavBarStyles {
   static const double bumpHeight = 60;
 
   static const Color color = Colors.white;
-  static const Color shadowColor = Color(0x33000000);
+  static const Color shadowColor = Color(0x55000000);
 }
 
