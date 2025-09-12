@@ -1,9 +1,10 @@
+// lib/protected/top/index.dart
 import 'package:flutter/material.dart';
 import './_component/gacha/gacha.dart';
-import '_component/itemButton/item_button.dart';
 import './_component/gachabox/gachabox.dart';
 import './_component/gachabar/gachabar.dart';
 import './_component/gachabar/gachabar_styles.dart';
+import './_component/itemButton/item_button.dart'; // ← 追加
 import 'layout.dart';
 
 class TopPage extends StatefulWidget {
@@ -18,18 +19,6 @@ class _TopPageState extends State<TopPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: TopLayout.bgColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const ItemButton(),
-            Expanded(child: const Gacha()),
-          ],
-        ),
-      ),
-    );
-
     return Container(
       color: TopLayout.bgColor,
       child: Stack(
@@ -44,14 +33,24 @@ class _TopPageState extends State<TopPage> {
                 },
               ),
             ),
+
           Positioned(
             bottom: BarStyles.bottomOffset,
             left: 0,
             right: 0,
             child: const GachaBar(),
           ),
+
+          Positioned(
+            top: 16,
+            left: 300,
+            right: null,
+            bottom: 470,
+            child: const ItemButton(),
+          ),
         ],
       ),
     );
   }
 }
+
