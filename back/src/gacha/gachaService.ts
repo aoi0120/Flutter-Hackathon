@@ -54,6 +54,7 @@ export const gachapon = async (token: string) => {
         
         const createUserTicket: any = await db.collection("userTicket").add({
             store_id: store_id,
+            user_id: uid,
             prize: TicketInfo.prize,
             expiration_at: Timestamp.fromDate( new Date( TicketInfo.expiration_at )),
             effective: true

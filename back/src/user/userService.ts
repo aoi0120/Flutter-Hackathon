@@ -40,15 +40,6 @@ export const updateName = async ( Token: string, newName:string ) => {
     );
 }
 
-export const addTicket = async ( token: string, ticketUuid:string ) => {
-    const decoded = await auth.verifyIdToken(token);
-    const uid = decoded.uid;
-
-    return await db.collection('users').doc(uid).update({
-        tickets:  FieldValue.arrayUnion( ticketUuid )
-    });
-};
-
 export const userHaveTickets = async ( token: string,) => {
     const decoded = await auth.verifyIdToken(token);
     const uid = decoded.uid;
@@ -65,22 +56,38 @@ export const ticketsInfo = async ( userHaveTickets: string[] ) => {
         return ({ message: "所持チケットはありません" });
     }
     const getTickets = userHaveTickets.map( async (uuid: string) => {
-        const ticketDoc = await db.collection('tickets').doc(uuid).get();
+        const ticketDoc = await db.collection('usersTicket').doc(uuid).get();
         if (ticketDoc.exists) {
             return [uuid, ticketDoc.data()];
         } else {
-            return [uuid, null]; // 存在しなかった場合
+            return [uuid, null]; 
         } 
     });
 
     const ticketsEntries = await Promise.all(getTickets);
-      // Object に変換して返す
-        const ticketsObject = ticketsEntries.reduce((acc, [uuid, data]) => {
-            if (data) {
-                acc[uuid as string] = data;
-            }
-            return acc;
-        }, {} as Record<string, any>);
+    const ticketsObject = ticketsEntries.reduce((acc, [uuid, data]) => {
+        if (data) {
+            acc[uuid as string] = data;
+        }
+        return acc;
+    }, {} as Record<string, any>);
 
-    return { message: "所持チケット取得成功", tickets: ticketsObject };
+    const haveTicketsInfo = ticketsObject;
+    return { haveTicketsInfo };
+}
+
+export const useTicket = async ( token: string, ticket_id: string ) => {
+    const decoded = await auth.verifyIdToken(token);
+    const uid = decoded.uid;
+
+    const Ref = db.collection("userTickets").doc(ticket_id);
+    const Doc = await Ref.get();
+
+    if (Doc.data()?.uid !== uid ) {
+        throw new Error("このチケットを使用する権限がありません");
+    }
+
+    return await Ref.update({
+        effective: false
+    });
 }

@@ -42,27 +42,6 @@ router.patch("/", async (req: Request, res: Response) => {
     }
 });
 
-//所持チケット追加
-router.post("/:ticketUuid", async (req: Request, res: Response) => {
-    const { ticketUuid } = req.params;
-    const token = req.headers.authorization?.split('Bearer ')[1];
-
-    if (!token) {
-        return res.status(400).json({ message: 'tokenがありません'});
-    }
-
-    if (!ticketUuid) {
-        return res.status(400).json({ message: 'ticketUuidがありません'});
-    }
-
-    try {
-        const addTicket = await userService.addTicket( token, ticketUuid );
-        res.status(200).json({ message: `チケットID:${ ticketUuid }を所持チケットに追加しました。`, addTicket })
-    } catch (error) {
-        res.status(500).json({ message: "チケット追加に失敗しました" })
-    }
-})
-
 //所持チケット全表示
 router.get("/", async ( req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
@@ -77,10 +56,32 @@ router.get("/", async ( req: Request, res: Response) => {
             return res.status(400).json({ message: 'ticketsデータがありません'});
         }
         const ticketsInfo = await userService.ticketsInfo(userHaveTickets);
-        res.status(200).json({ message: "所持チケット全表示 成功", tickets: ticketsInfo.tickets });
+        res.status(200).json({ message: "所持チケット全表示 成功", ticketsInfo });
     } catch (error) {
         res.status(500).json({ message: "所持チケット全表示 失敗" });
         console.log(error)
+    }
+})
+
+//チケット使用API
+router.patch("/:ticket_id", async ( req: Request, res: Response ) => {
+    const token = req.headers.authorization?.split('Bearer ')[1];
+    const ticket_id = req.params.ticket_id;
+
+    if (!token) {
+        return res.status(400).json({ message: 'tokenがありません'});
+    }
+
+    if (!ticket_id) {
+        return res.status(400).json({ message: 'ticket_idがありません'});
+    }
+
+    try {
+        await userService.useTicket( token, ticket_id)
+        res.status(200).json({ message: "チケット使用しました"});
+    } catch (error) {
+        res.status(500).json({ message: "チケット使用出来ませんでした"});
+        console.log( error );
     }
 })
 
