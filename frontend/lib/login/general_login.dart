@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'general_login_style.dart';
+import '../auth.dart';
 
 class GeneralLogin extends StatelessWidget {
   const GeneralLogin({
@@ -30,7 +31,7 @@ class GeneralLogin extends StatelessWidget {
                 children: [
                   // Google認証ボタン
                   InkWell(
-                    onTap: () => print('Google認証ボタンを押したよ'),
+                    onTap: () => {print('Google認証ボタンを押したよ'), auth.value = true},
                     child: Padding(
                       padding: EdgeInsets.only(top: 20.0),
                       child: Image.asset('assets/images/glogin.png'),
