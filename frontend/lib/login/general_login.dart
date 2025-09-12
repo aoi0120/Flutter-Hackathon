@@ -28,14 +28,26 @@ class GeneralLogin extends StatelessWidget {
             child: Container(
               child: Column(
                 children: [
-                  // ボタン化はまだ
-                  Padding(
-                    padding: EdgeInsets.only(top: 20.0),
-                    child: Image.asset('assets/images/glogin.png'),
+                  // Google認証ボタン
+                  InkWell(
+                    onTap: () => print('Google認証ボタンを押したよ'),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Image.asset('assets/images/glogin.png'),
+                    ),
                   ),
                   SizedBox(height: 20.0),
-                  // ボタン化はまだ
-                  Text('商店街の方はこちら'),
+                  // 商店街の方専用ログイン画面
+                  InkWell(
+                    onTap: () => print('商店街の方専用ログイン画面へ'),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        '商店街の方はこちら',
+                        style: GeneralScreenPicture.textStyle,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
