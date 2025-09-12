@@ -6,7 +6,7 @@ export const createTag = async (tagName:string,tagId:number) => {
         name: tagName,
         tag_id: tagId,
     });    
-} 
+}
 
 export const getTag = async () => {
     //firebaseのtagsのタグを収集
@@ -25,7 +25,5 @@ export const getTag = async () => {
         //他のがあれば追加
         });
     });
-
     return tags;
-
-} 
+}
