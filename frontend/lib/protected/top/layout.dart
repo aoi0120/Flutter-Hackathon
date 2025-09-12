@@ -10,4 +10,6 @@ class TopLayout {
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
+  static const String gachaAsset = 'assets/images/gachabox.png';
+  static const String handleAsset = 'assets/images/handle.png';
 }
