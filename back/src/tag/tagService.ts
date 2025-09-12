@@ -1,6 +1,7 @@
-import { db, auth } from "../firebase/firebase";
+import { db } from "../firebase/firebase";
+import jwt from "jsonwebtoken";
 
-export const createTag = async (tagName:string,tagId:number) => {
+export const createTag = async (tagName:string,tagId:number,) => {
     //firebaseのtagsにタグを追加
     await db.collection('tags').add({
         name: tagName,
@@ -10,7 +11,6 @@ export const createTag = async (tagName:string,tagId:number) => {
 
 export const getTag = async () => {
     //firebaseのtagsのタグを収集
-    
     const tagAll = await db.collection('tags').get();
 
     if(tagAll.empty){

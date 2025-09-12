@@ -63,7 +63,7 @@ router.patch("/", async (req: Request, res: Response) => {
         return res.status(401).json({ message: "Authorization ヘッダーがありません" });
     };
 
-    const token = authHeader.split(" ")[0];
+    const token = authHeader.split(" ")[1];
     if (!token) {
         return res.status(401).json({ message: "トークンが見つかりません" });
     };
