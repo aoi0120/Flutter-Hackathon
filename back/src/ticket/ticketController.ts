@@ -31,4 +31,6 @@ router.post("/", async ( req: Request, res: Response ) => {
     }
 });
 
+//有効期限切れた時の処理
+
 export default router;
