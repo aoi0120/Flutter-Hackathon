@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './_component/gacha/gacha.dart';
+import '_component/itemButton/item_button.dart';
 import './_component/gachabox/gachabox.dart';
 import './_component/gachabar/gachabar.dart';
 import './_component/gachabar/gachabar_styles.dart';
@@ -17,6 +18,18 @@ class _TopPageState extends State<TopPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: TopLayout.bgColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            const ItemButton(),
+            Expanded(child: const Gacha()),
+          ],
+        ),
+      ),
+    );
+
     return Container(
       color: TopLayout.bgColor,
       child: Stack(
@@ -42,4 +55,3 @@ class _TopPageState extends State<TopPage> {
     );
   }
 }
-
