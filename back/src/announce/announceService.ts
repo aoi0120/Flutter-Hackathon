@@ -18,12 +18,28 @@ export const createAnnounce = async (announceName:string,announceSummary:number,
     await db.collection('announcement').add({
         title: announceName,
         summary: announceSummary,
-        created_at: time_now,
         event_at: Timestamp.fromDate(new Date(event_at)),
+        created_at: time_now,
         updated_at: time_now,
     });    
 }
 
 export const getAnnounce = async () => {
-    return
+    //firebaseのannouncementのお知らせを収集
+    const announceAll = await db.collection('announcement').get();
+    if(announceAll.empty){
+        return[];
+    }
+    const result:any = [];
+    announceAll.forEach(doc => {
+        result.push({
+            title: doc.data().title,
+            summary: doc.data().summary,
+            event_at: doc.data().event_at,
+            created_at: doc.data().created_at,
+            updated_at: doc.data().updated_at,
+        //他のがあれば追加
+        });
+    });
+    return result;
 }
