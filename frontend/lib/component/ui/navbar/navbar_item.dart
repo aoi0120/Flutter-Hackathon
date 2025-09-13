@@ -6,11 +6,11 @@ class NavBarItem extends StatelessWidget {
     required this.asset,
     required this.active,
     required this.onTap,
-    this.width = 40,
-    this.height = 40,
-    this.offsetY = 0,
-    this.hitSize = 72,
-    this.hitOffsetY = 0,
+    required this.width,
+    required this.height,
+    required this.offsetY,
+    required this.hitSize,
+    required this.hitOffsetY,
   });
 
   final String asset;
@@ -24,29 +24,38 @@ class NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: hitSize,
-        height: hitSize,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Transform.translate(
-              offset: Offset(0, offsetY),
-              child: Image.asset(
-                asset,
+    return Semantics(
+      button: true,
+      selected: active,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Transform.translate(
+            offset: Offset(0, hitOffsetY),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: onTap,
+              child: SizedBox(width: hitSize, height: hitSize),
+            ),
+          ),
+
+          Transform.translate(
+            offset: Offset(0, offsetY),
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: onTap,
+              child: SizedBox(
                 width: width,
                 height: height,
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
-                errorBuilder: (_, __, ___) =>
-                    SizedBox(width: width, height: height),
+                child: Image.asset(
+                  asset,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TicketLayout {
-  static const bgColor = Color(0xFF3DB2CA); // ← 指定色
+  static const bgColor = Color(0xFF3DB2CA); 
   static const accentBlue = Color(0xFF2D7FF9);
 
   static const headerTextStyle = TextStyle(
