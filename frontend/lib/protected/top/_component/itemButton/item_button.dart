@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'item_button_style.dart';
 import 'round_button.dart';
-
-// ボタンとテキストを組み合わせる
 class _ButtonItem extends StatelessWidget {
   const _ButtonItem({
     required this.text,
@@ -35,7 +33,10 @@ class ItemButton extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(
+        right: 7.0,
+        bottom: 450,
+      ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

@@ -5,7 +5,9 @@ import 'gachabox_styles.dart';
 import 'rotatable_handle.dart';
 
 class GachaBox extends StatelessWidget {
-  const GachaBox({super.key});
+  const GachaBox({super.key, this.onHandleSpinCompleted});
+
+  final VoidCallback? onHandleSpinCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +22,15 @@ class GachaBox extends StatelessWidget {
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            Image.asset(
-              TopLayout.gachaAsset,
-              width: boxWidth,
-              fit: BoxFit.contain,
-            ),
-
+            Image.asset(TopLayout.gachaAsset, width: boxWidth, fit: BoxFit.contain),
             Arrow(boxWidth: boxWidth),
-
             Positioned(
               right: GachaBoxStyles.handleRight,
               bottom: GachaBoxStyles.handleBottom,
-              child: RotatableHandle(boxWidth: boxWidth),
+              child: RotatableHandle(
+                boxWidth: boxWidth,
+                onSpinCompleted: onHandleSpinCompleted,
+              ),
             ),
           ],
         ),
