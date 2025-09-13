@@ -45,6 +45,15 @@ Future<bool> sendIdTokenToBackend() async {
       await prefs.setString('jwt', jwt);
 
       print('バックエンドJWT取得成功: $jwt');
+
+      final res = await http.post(
+        Uri.parse('https://${Env.apiBaseUrl}/user/'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwt', // ← こっちにJWTをのせる
+          },
+      );
+
       return true;
     } else {
       print('バックエンド認証失敗: ${response.body}');
