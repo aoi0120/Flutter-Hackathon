@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'layout.dart';
 
-class MapPage extends StatelessWidget {
-  const MapPage({super.key});
+class TicketPage extends StatelessWidget {
+  const TicketPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: MapLayout.bgColor,
+      color: TicketLayout.bgColor,
 
     );
   }

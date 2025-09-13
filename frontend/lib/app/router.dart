@@ -4,7 +4,7 @@ import '../auth.dart';
 
 import '../component/ui/navbar/navbar.dart';
 import '../protected/top/index.dart';
-import '../protected/map/index.dart';
+import '../protected/ticket/index.dart';
 import '../protected/settings/index.dart';
 import '../login/general_login.dart';
 
@@ -24,7 +24,7 @@ final appRouter = GoRouter(
       builder: (context, state, child) => _RootShell(child: child),
       routes: [
         GoRoute(path: '/', builder: (_, __) => const TopPage()),
-        GoRoute(path: '/map', builder: (_, __) => const MapPage()),
+        GoRoute(path: '/ticket', builder: (_, __) => const TicketPage()),
         GoRoute(path: '/settings', builder: (_, __) => const SettingPage()),
       ],
     ),
@@ -37,7 +37,7 @@ class _RootShell extends StatelessWidget {
 
   int _indexFromLocation(BuildContext context) {
     final loc = GoRouterState.of(context).uri.toString();
-    if (loc.startsWith('/map')) return 0;
+    if (loc.startsWith('/ticket')) return 0;
     if (loc.startsWith('/settings')) return 2;
     return 1;
   }
@@ -45,7 +45,7 @@ class _RootShell extends StatelessWidget {
   void _onTap(BuildContext context, int i) {
     switch (i) {
       case 0:
-        context.go('/map');
+        context.go('/ticket');
         break;
       case 1:
         context.go('/');
