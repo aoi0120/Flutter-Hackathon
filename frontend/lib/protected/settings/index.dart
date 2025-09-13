@@ -26,8 +26,6 @@ class SettingPage extends StatelessWidget {
         children: <Widget>[
           InkWell(
             onTap: () {
-              // 例: ニックネーム変更画面へ
-              // context.go('/settings/nickname');
             },
             child: const ListTile(
               title: Text('ニックネーム変更', style: SettingLayout.textStyle),

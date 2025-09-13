@@ -17,11 +17,16 @@ class NavBar extends StatelessWidget {
     final double topPad =
         (NavBarStyles.bumpHeight - 12).clamp(0, 30).toDouble();
 
+    const double hPad = 20;
+    final double w = MediaQuery.of(context).size.width;
+    final double cellW = (w - hPad * 2) / 3;
+
     return SizedBox(
       height: NavBarStyles.height,
       width: double.infinity,
       child: RepaintBoundary(
         child: Stack(
+          clipBehavior: Clip.none,
           alignment: Alignment.center,
           children: [
             _NavBarShape(
@@ -34,7 +39,7 @@ class NavBar extends StatelessWidget {
 
             Positioned.fill(
               child: Padding(
-                padding: EdgeInsets.only(left: 20, right: 20, top: topPad),
+                padding: EdgeInsets.only(left: hPad, right: hPad, top: topPad),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -59,7 +64,7 @@ class NavBar extends StatelessWidget {
                         height: 80,
                         offsetY: -45,
                         hitSize: 90,
-                        hitOffsetY: -40,
+                        hitOffsetY: -70,
                       ),
                     ),
                     Expanded(
@@ -76,6 +81,18 @@ class NavBar extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+
+            Positioned(
+              left: hPad + cellW,
+              width: cellW,
+              top: 0,
+              height: topPad + 60,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => onTap(1),
+                child: const SizedBox.expand(), 
               ),
             ),
           ],
@@ -147,6 +164,6 @@ class _PathClipper extends CustomClipper<Path> {
   Path getClip(Size size) => _path;
 
   @override
-  bool shouldReclip(covariant _PathClipper old) => false; 
+  bool shouldReclip(covariant _PathClipper old) => false;
 }
 
