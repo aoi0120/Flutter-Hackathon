@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SettingLayout {
-  static const Color bgColor = Color(0xFFFFFFFF);
-  static const double pad = 16.0;
-
-  static const TextStyle titleStyle = TextStyle(
-    fontSize: 36,
+  static const TextStyle textStyle = TextStyle(
+    fontSize: 16,
     fontWeight: FontWeight.bold,
     color: Colors.black,
+  );
+
+  static const TextStyle logout = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.blue,
   );
 }
