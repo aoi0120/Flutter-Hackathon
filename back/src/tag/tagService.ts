@@ -1,5 +1,4 @@
 import { db } from "../firebase/firebase";
-import jwt from "jsonwebtoken";
 
 export const createTag = async (tagName:string,tagId:number,) => {
     //firebaseのtagsにタグを追加

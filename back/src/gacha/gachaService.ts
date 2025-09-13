@@ -51,9 +51,13 @@ export const gachapon = async (token: string) => {
         const Ticket = await db.collection("tickets").doc(selectTicket).get();
         const TicketInfo:any = Ticket.data();
 
+        const storeNameRef = await db.collection("stores").doc();
+        const storeNameDoc = await storeNameRef.get();
+        const store_name  = storeNameDoc.get("name")
+
         
         const createUserTicket: any = await db.collection("userTicket").add({
-            store_id: store_id,
+            store_name: store_name,
             user_id: uid,
             prize: TicketInfo.prize,
             expiration_at: Timestamp.fromDate( new Date( TicketInfo.expiration_at )),
@@ -64,7 +68,7 @@ export const gachapon = async (token: string) => {
 
         await db.collection("users").doc(uid).update({
             gacha_at: Timestamp.fromDate(now),
-            tickets: FieldValue.arrayUnion(createUserTicket.id)
+            tickets: FieldValue.arrayUnion(userTicket_id)
         });
 
         return { result, userTicket_id: TicketInfo.prize, store_id };
