@@ -58,10 +58,14 @@ export const ticketsInfo = async ( userHaveTickets: string[] ) => {
     const getTickets = userHaveTickets.map( async (uuid: string) => {
         const ticketDoc = await db.collection('usersTicket').doc(uuid).get();
         if (ticketDoc.exists) {
+            const data = ticketDoc.data();
+            if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
+                data.expiration_at = data.expiration_at.toDate();
+            }
             return [uuid, ticketDoc.data()];
         } else {
             return [uuid, null]; 
-        } 
+        }
     });
 
     const ticketsEntries = await Promise.all(getTickets);

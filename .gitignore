@@ -14,6 +14,9 @@ back/src/firebase/privateKey.json
 node_modules/
 .env
 
+# Firebase
+/android/app/google-services.json
+
 
 # Flutter repo-specific
 /bin/cache/

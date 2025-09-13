@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'general_login_style.dart';
+import '../owner/owner_login.dart';
 import '../auth.dart';
 
 class GeneralLogin extends StatelessWidget {
@@ -43,24 +45,34 @@ class GeneralLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                 InkWell(
-                      onTap: () {
-                        print('Google認証ボタンを押したよ');
-                        auth.value = true;
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: Image(
-                          image: AssetImage('assets/images/glogin.png'),
-                          width: 300,
-                          // height: 60,
-                          fit: BoxFit.contain,
-                        ),
+                  InkWell(
+                    onTap: () async {
+                      print('Google認証ボタンを押したよ');
+                      final bool result = await signInWithGoogle();
+                      auth.value = result;
+
+                      if (result) {
+                        print('Google認証に成功しました!');
+                      } else {
+                        print('Google認証に失敗しました。');
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Image(
+                        image: AssetImage('assets/images/glogin.png'),
+                        width: 300,
+                        // height: 60,
+                        fit: BoxFit.contain,
                       ),
                     ),
+                  ),
                   const SizedBox(height: 20.0),
                   InkWell(
-                    onTap: () => print('商店街の方専用ログイン画面へ'),
+                    onTap: () {
+                      context.go('/owner_login');
+                      print('商店街の方専用ログイン画面に移るよ');
+                    },
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -78,4 +90,3 @@ class GeneralLogin extends StatelessWidget {
     );
   }
 }
-

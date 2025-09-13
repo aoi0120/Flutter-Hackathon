@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../auth.dart';
 import 'layout.dart';
 
@@ -8,13 +7,11 @@ class SettingPage extends StatelessWidget {
 
   Future<void> _handleLogout(BuildContext context) async {
     try {
-      // 認証のサインアウト
-      // await FirebaseAuth.instance.signOut();
-      auth.value = false;
+      await signOut();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ログアウトに失敗しました')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('ログアウトに失敗しました')));
     }
   }
 
@@ -25,8 +22,7 @@ class SettingPage extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           InkWell(
-            onTap: () {
-            },
+            onTap: () {},
             child: const ListTile(
               title: Text('ニックネーム変更', style: SettingLayout.textStyle),
             ),
@@ -42,4 +38,3 @@ class SettingPage extends StatelessWidget {
     );
   }
 }
-

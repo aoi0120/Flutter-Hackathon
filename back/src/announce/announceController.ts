@@ -33,11 +33,10 @@ router.post("/", async (req:Request, res:Response) => {
 router.get("/", async (req: Request, res: Response) => {
     try {
         const result = await announceService.getAnnounce(); 
-        res.status(200).json({ message: "お知らせ作成API成功", result});        
+        res.status(200).json({ message: "お知らせ取得成功", result});        
     } catch (error) {
         res.status(500).json({ message: "お知らせ取得APIエラー" });
         console.log(error);
     }
 })
-
 export default router;
