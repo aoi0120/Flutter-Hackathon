@@ -1,8 +1,23 @@
 import { db, auth } from "../firebase/firebase";
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import jwt from "jsonwebtoken";
 
-export const createUser = async ( Token: string ) => {
-    const decoded = await auth.verifyIdToken(Token);
+export const createJwt = async ( token:string ) => {
+    const decoded = await auth.verifyIdToken(token);
+    const uid = decoded.sub;
+
+
+    const userToken = jwt.sign(
+        { uid, role: "user" },
+        process.env.JWT_SECRET!,
+        { expiresIn: "365d" },
+    );
+
+    return { userToken };
+}
+
+export const createUser = async ( token: string ) => {
+    const decoded = await auth.verifyIdToken(token);
 
     const uid = decoded.uid;
     const name = decoded.name || '未設定';
@@ -31,8 +46,8 @@ export const createUser = async ( Token: string ) => {
     }
 };
 
-export const updateName = async ( Token: string, newName:string ) => {
-    const decoded = await auth.verifyIdToken(Token);
+export const updateName = async ( token: string, newName:string ) => {
+    const decoded = await auth.verifyIdToken(token);
     const uid = decoded.uid;
 
     return await db.collection('users').doc(uid).update(

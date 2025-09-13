@@ -3,6 +3,21 @@ import * as userService from './userService';
 
 const router = express.Router();
 
+router.post("/jwtToken", async (req: Request, res: Response) => {
+    const { token } = req.body;
+
+    if (!token) {
+        return res.status(400).json({ message: "firebase JWTToken が必要です" });
+    }
+    try {
+        const result = await userService.createJwt(token);
+        res.status(500).json({ message: "firebase JWTTokenを独自tokenに変更成功", UserToken: result.userToken})
+    } catch (error) {
+        res.status(500).json({ message: "firebase JWTTokenを独自tokenに変更失敗"})
+        console.log( error )
+    }
+})
+
 //Googleログイン後のDB登録
 router.post("/", async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];

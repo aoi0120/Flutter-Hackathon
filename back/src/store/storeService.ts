@@ -32,13 +32,13 @@ export const storeLogin = async (email: string, pass: string) => {
         throw new Error("パスワードが違います");
     }
 
-    const token = jwt.sign(
-        { id: doc.id, email: data.email },
+    const storeToken = jwt.sign(
+        { id: doc.id, email: data.email, role: "store" },
         process.env.JWT_SECRET!,
-        {expiresIn: "1h"}           
+        {expiresIn: "365d"}           
     );
 
-    return { token };
+    return { storeToken };
 };
 
 export interface storeUpdateData {
