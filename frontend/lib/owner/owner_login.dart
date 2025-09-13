@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'button_temp.dart';
 import 'owner_login_style.dart';
 
@@ -14,7 +15,10 @@ class OwnerLogin extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: InkWell(
-                onTap: () => print('一般ログインに戻るよ'),
+                onTap: () {
+                  context.go('/login');
+                  print('一般ログインに戻るよ');
+                },
                 child: Text('＜戻る', style: OwnerTextStyle.style),
               ),
             ),
@@ -64,7 +68,12 @@ class OwnerLogin extends StatelessWidget {
               const SizedBox(height: 40),
 
               // ログインボタン
-              ButtonTemp(text: 'ログイン', onTap: () => print('ログインするよ！')),
+              ButtonTemp(
+                text: 'ログイン',
+                onTap: () {
+                  print('ログインを試みるよ！');
+                },
+              ),
             ],
           ),
         ),
