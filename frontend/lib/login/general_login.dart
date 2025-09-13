@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'general_login_style.dart';
+import '../owner/owner_login.dart';
 import '../auth.dart';
 
 class GeneralLogin extends StatelessWidget {
@@ -67,7 +69,10 @@ class GeneralLogin extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   InkWell(
-                    onTap: () => print('商店街の方専用ログイン画面へ'),
+                    onTap: () {
+                      context.go('/owner_login');
+                      print('商店街の方専用ログイン画面に移るよ');
+                    },
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
