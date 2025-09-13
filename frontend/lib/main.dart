@@ -3,7 +3,7 @@ import 'app/router.dart';
 import 'auth.dart';
 import 'config/env.dart';
 import 'api/client.dart';
-import 'app_scope.dart';       
+import 'app_scope.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,15 +11,9 @@ Future<void> main() async {
   await initAuth();
 
   final api = ApiClient(baseUrl: Env.apiBaseUrl);
-  final ticketsApi = ApiClient(baseUrl: Env.tickets);
+  final ticketsApi = ApiClient(baseUrl: Env.ticketsBase);
 
-  runApp(
-    AppScope(
-      api: api,
-      ticketsApi: ticketsApi,
-      child: const MyApp(),
-    ),
-  );
+  runApp(AppScope(api: api, ticketsApi: ticketsApi, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,4 +31,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

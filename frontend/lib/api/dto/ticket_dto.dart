@@ -1,5 +1,5 @@
 class TicketDto {
-  final String prize;       
+  final String prize;
   final String expirationAt;
   final String storeName;
   final double latitude;
@@ -14,11 +14,22 @@ class TicketDto {
   });
 
   factory TicketDto.fromJson(Map<String, dynamic> j) => TicketDto(
-        prize: j['prize'] as String,
-        expirationAt: j['expiration_at'] as String,
-        storeName: j['store_name'] as String,
-        latitude: (j['_latitude'] as num).toDouble(),
-        longitude: (j['_longitude'] as num).toDouble(),
-      );
+    prize: j['prize'] as String,
+    expirationAt: j['expiration_at']?.toString() ?? '',
+    storeName: j['store_name'] as String? ?? '',
+    latitude: (j['_latitude'] as num?)?.toDouble() ?? 0.0,
+    longitude: (j['_longitude'] as num?)?.toDouble() ?? 0.0,
+  );
 }
 
+class TicketsResponse {
+  final String message;
+  final Map<String, dynamic> ticketsInfo;
+
+  TicketsResponse({required this.message, required this.ticketsInfo});
+
+  factory TicketsResponse.fromJson(Map<String, dynamic> j) => TicketsResponse(
+    message: j['message'] as String,
+    ticketsInfo: j['ticketsInfo'] as Map<String, dynamic>,
+  );
+}

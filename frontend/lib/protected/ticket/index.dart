@@ -12,21 +12,26 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  late final TicketsService _service;
-  late Future<TicketDto> _future;
-
-  Future<TicketDto> _load() => _service.fetchNextTicket();
+  late TicketsService _service;
+  late Future<List<TicketDto>> _future;
+  bool _inited = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_inited) return;
     _service = TicketsService(AppScope.of(context).ticketsApi);
-    _future = _load();
+    _future = _service.fetchTickets();
+    _inited = true;
   }
 
   Future<void> _refresh() async {
-    setState(() => _future = _load());
-    await _future;
+    final newFuture = _service.fetchTickets();
+    if (!mounted) return;
+    setState(() {
+      _future = newFuture;
+    });
+    await newFuture;
   }
 
   @override
@@ -34,7 +39,7 @@ class _TicketPageState extends State<TicketPage> {
     return ColoredBox(
       color: TicketLayout.bgColor,
       child: SafeArea(
-        child: FutureBuilder<TicketDto>(
+        child: FutureBuilder<List<TicketDto>>(
           future: _future,
           builder: (context, snap) {
             if (snap.connectionState == ConnectionState.waiting) {
@@ -47,20 +52,25 @@ class _TicketPageState extends State<TicketPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('読み込み失敗: ${snap.error}',
-                          textAlign: TextAlign.center,
-                          style: TicketLayout.infoTextStyle),
+                      Text(
+                        '読み込み失敗: ${snap.error}',
+                        textAlign: TextAlign.center,
+                        style: TicketLayout.infoTextStyle,
+                      ),
                       const SizedBox(height: 12),
-                      FilledButton(onPressed: _refresh, child: const Text('再試行')),
+                      FilledButton(
+                        onPressed: _refresh,
+                        child: const Text('再試行'),
+                      ),
                     ],
                   ),
                 ),
               );
             }
-            if (!snap.hasData) {
+            if (!snap.hasData || snap.data!.isEmpty) {
               return const Center(child: Text('クーポンはありません'));
             }
-            final t = snap.data!;
+            final tickets = snap.data!;
             return RefreshIndicator(
               onRefresh: _refresh,
               child: ListView(
@@ -75,21 +85,26 @@ class _TicketPageState extends State<TicketPage> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  CouponCard(
-                    label: t.prize,
-                    dateText: t.expirationAt,
-                    areaText: '${t.storeName}  ',
-                    venueText: '',
-                    onTapLocation: () => openMap(
-                      lat: t.latitude,
-                      lng: t.longitude,
-                      label: t.storeName,
+                  ...tickets.map(
+                    (ticket) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: CouponCard(
+                        label: ticket.prize,
+                        dateText: ticket.expirationAt,
+                        areaText: '${ticket.storeName}  ',
+                        venueText: '',
+                        onTapLocation: () => openMap(
+                          lat: ticket.latitude,
+                          lng: ticket.longitude,
+                          label: ticket.storeName,
+                        ),
+                        onPressedDetails: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('チケット詳細（TODO）')),
+                          );
+                        },
+                      ),
                     ),
-                    onPressedDetails: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('チケット詳細（TODO）')),
-                      );
-                    },
                   ),
                 ],
               ),
@@ -100,4 +115,3 @@ class _TicketPageState extends State<TicketPage> {
     );
   }
 }
-

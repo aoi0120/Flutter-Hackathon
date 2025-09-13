@@ -31,7 +31,7 @@ Future<bool> sendIdTokenToBackend() async {
     final idToken = await user.getIdToken();
 
     final response = await http.post(
-      Uri.parse('https://${Env.apiBaseUrl}/user/jwtToken'),
+      Uri.parse('${Env.apiBaseUrl}/user/jwtToken'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'token': idToken}),
     );
