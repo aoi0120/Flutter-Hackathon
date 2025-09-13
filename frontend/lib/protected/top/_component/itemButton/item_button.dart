@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'item_button_style.dart';
 import 'round_button.dart';
+
 class _ButtonItem extends StatelessWidget {
   const _ButtonItem({
     required this.text,
@@ -33,10 +35,7 @@ class ItemButton extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: const EdgeInsets.only(
-        right: 7.0,
-        bottom: 450,
-      ),
+        padding: const EdgeInsets.only(right: 7.0, bottom: 450),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -49,7 +48,7 @@ class ItemButton extends StatelessWidget {
             _ButtonItem(
               text: '所持チケ',
               iconAsset: ItemButtonStyle.ellipsesIcon,
-              onPressed: () => print('所持チケを押したよ！'),
+              onPressed: () => context.go('/ticket'), 
             ),
           ],
         ),
@@ -57,3 +56,4 @@ class ItemButton extends StatelessWidget {
     );
   }
 }
+
