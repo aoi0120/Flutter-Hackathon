@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../auth.dart';
-
 import '../component/ui/navbar/navbar.dart';
 import '../protected/top/index.dart';
 import '../protected/ticket/index.dart';
 import '../protected/settings/index.dart';
 import '../login/general_login.dart';
+import '../protected/ticket/layout.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -61,8 +61,15 @@ class _RootShell extends StatelessWidget {
     final currentIndex = _indexFromLocation(context);
     final loc = GoRouterState.of(context).uri.toString();
     final isTop = loc == '/';
+    final isTicket = loc.startsWith('/ticket');
+
     return Scaffold(
-      body: isTop ? child : SafeArea(child: child),
+      backgroundColor: isTicket ? TicketLayout.bgColor : null,
+      body: isTop
+          ? child
+          : isTicket
+              ? child
+              : SafeArea(child: child),
       bottomNavigationBar: NavBar(
         currentIndex: currentIndex,
         onTap: (i) => _onTap(context, i),
@@ -70,3 +77,4 @@ class _RootShell extends StatelessWidget {
     );
   }
 }
+
