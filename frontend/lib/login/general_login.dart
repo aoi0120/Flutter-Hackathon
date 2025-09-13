@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'general_login_style.dart';
 import '../owner/owner_login.dart';
 import '../auth.dart';
+
+final auth = ValueNotifier<bool>(false);
 
 class GeneralLogin extends StatelessWidget {
   const GeneralLogin({super.key});
@@ -46,9 +50,16 @@ class GeneralLogin extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       print('Google認証ボタンを押したよ');
-                      auth.value = true;
+                      final bool result = await signInWithGoogle();
+                      auth.value = result;
+
+                      if (result) {
+                        print('Google認証に成功しました!');
+                      } else {
+                        print('Google認証に失敗しました。');
+                      }
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(top: 20.0),
