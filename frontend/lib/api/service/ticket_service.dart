@@ -10,11 +10,17 @@ class TicketsService {
     final prefs = await SharedPreferences.getInstance();
     final jwt = prefs.getString('jwt');
 
+    print('JWT取得状況: ${jwt != null ? "あり" : "なし"}');
+    if (jwt != null) {
+      print('JWT内容: ${jwt.substring(0, 20)}...');
+    }
+
     final headers = <String, String>{};
     if (jwt != null) {
       headers['Authorization'] = 'Bearer $jwt';
     }
 
+    print('送信ヘッダー: $headers');
     final json = await api.getJson('', headers: headers);
     final response = TicketsResponse.fromJson(json);
 
