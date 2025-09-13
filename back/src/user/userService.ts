@@ -65,7 +65,7 @@ export const ticketsInfo = async ( userHaveTickets: string[] ) => {
             return [uuid, ticketDoc.data()];
         } else {
             return [uuid, null]; 
-        } 
+        }
     });
 
     const ticketsEntries = await Promise.all(getTickets);

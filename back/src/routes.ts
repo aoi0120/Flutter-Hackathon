@@ -5,6 +5,10 @@ const router = Router();
 import userRoutes from './user/userController';
 router.use('/user', userRoutes);
 
+//userTicketsルートインポート
+import userTicketsRoutes from './userTicket/userTicketContoroller';
+router.use('/userTickets', userTicketsRoutes);
+
 //storesルートインポート
 import storeRoutes from './store/storeController';
 router.use('/store', storeRoutes);
