@@ -6,6 +6,7 @@ import '../protected/top/index.dart';
 import '../protected/ticket/index.dart';
 import '../protected/settings/index.dart';
 import '../login/general_login.dart';
+import '../owner/owner_login.dart';
 import '../protected/ticket/layout.dart';
 
 final appRouter = GoRouter(
@@ -13,13 +14,16 @@ final appRouter = GoRouter(
   refreshListenable: auth,
   redirect: (context, state) {
     final isLoggedIn = auth.value;
-    final goingLogin = state.matchedLocation.contains('/login');
+    final goingLogin =
+        state.matchedLocation == '/login' ||
+        state.matchedLocation == '/owner_login';
     if (!isLoggedIn && !goingLogin) return '/login';
     if (isLoggedIn && goingLogin) return '/';
     return null;
   },
   routes: [
     GoRoute(path: '/login', builder: (_, __) => const GeneralLogin()),
+    GoRoute(path: '/owner_login', builder: (_, __) => const OwnerLogin()),
     ShellRoute(
       builder: (context, state, child) => _RootShell(child: child),
       routes: [
@@ -68,8 +72,8 @@ class _RootShell extends StatelessWidget {
       body: isTop
           ? child
           : isTicket
-              ? child
-              : SafeArea(child: child),
+          ? child
+          : SafeArea(child: child),
       bottomNavigationBar: NavBar(
         currentIndex: currentIndex,
         onTap: (i) => _onTap(context, i),
@@ -77,4 +81,3 @@ class _RootShell extends StatelessWidget {
     );
   }
 }
-
