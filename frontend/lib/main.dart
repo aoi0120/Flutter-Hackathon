@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 import 'app/router.dart';
+import 'config/env.dart';
+import 'api/client.dart';
+import 'app_scope.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  final api = ApiClient(baseUrl: Env.apiBaseUrl);
+  final ticketsApi = ApiClient(baseUrl: Env.tickets); 
+  runApp(
+    AppScope(
+      api: api,
+      ticketsApi: ticketsApi,
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
