@@ -62,6 +62,14 @@ class _TopPageState extends State<TopPage> {
     }
   }
 
+  String _gachaAnime() {
+    if (_gachaResult == "当たり") {
+      return "asset/data/gachaOk.json";
+    } else {
+      return "asset/data/gacha.json";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -86,7 +94,7 @@ class _TopPageState extends State<TopPage> {
           if (_showCapsule)
             Center(
               child: Gacha(
-                assetPath: 'assets/data/gacha.json',
+                assetPath: _gachaAnime(),
                 onCompleted: _onCapsuleCompleted,
               ),
             ),
