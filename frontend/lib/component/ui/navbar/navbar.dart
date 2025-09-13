@@ -40,7 +40,7 @@ class NavBar extends StatelessWidget {
                   children: [
                     Expanded(
                       child: NavBarItem(
-                        asset: 'assets/images/map.png',
+                        asset: 'assets/images/ticket.png',
                         active: currentIndex == 0,
                         onTap: () => onTap(0),
                         width: 40,
