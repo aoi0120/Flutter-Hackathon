@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'general_login_style.dart';
 import '../auth.dart';
-
-final auth = ValueNotifier<bool>(false);
 
 class GeneralLogin extends StatelessWidget {
   const GeneralLogin({super.key});

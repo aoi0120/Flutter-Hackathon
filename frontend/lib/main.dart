@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'app/router.dart';
+import 'auth.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initAuth();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,4 +23,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

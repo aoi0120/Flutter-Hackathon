@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
+final ValueNotifier<bool> auth = ValueNotifier<bool>(_auth.currentUser != null);
+
+Future<void> initAuth() async {
+  await Firebase.initializeApp();
+  _auth.authStateChanges().listen((user) {
+    auth.value = user != null;
+  });
+}
 
 // Google認証を実行し、成功/失敗を真偽値で返す関数
 Future<bool> signInWithGoogle() async {
@@ -17,7 +27,8 @@ Future<bool> signInWithGoogle() async {
     }
 
     // Googleユーザーの認証情報を取得
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -25,6 +36,7 @@ Future<bool> signInWithGoogle() async {
 
     // Firebaseに認証情報を渡してサインイン
     await _auth.signInWithCredential(credential);
+    auth.value = true;
 
     // 認証が成功したらtrueを返す
     return true;
@@ -39,4 +51,5 @@ Future<bool> signInWithGoogle() async {
 Future<void> signOut() async {
   await _auth.signOut();
   await _googleSignIn.signOut();
+  auth.value = false;
 }
