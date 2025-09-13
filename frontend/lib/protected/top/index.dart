@@ -1,10 +1,9 @@
-// lib/protected/top/index.dart
 import 'package:flutter/material.dart';
 import './_component/gacha/gacha.dart';
 import './_component/gachabox/gachabox.dart';
 import './_component/gachabar/gachabar.dart';
 import './_component/gachabar/gachabar_styles.dart';
-import './_component/itemButton/item_button.dart'; // ← 追加
+import './_component/itemButton/item_button.dart';
 import 'layout.dart';
 
 class TopPage extends StatefulWidget {
@@ -15,7 +14,17 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> {
-  bool _animationDone = false;
+  bool _initialPlayed = false;
+  bool _showCapsule = false;
+
+  void _onHandleSpinDone() {
+    setState(() => _showCapsule = true);
+  }
+
+  void _onCapsuleCompleted() {
+    setState(() => _showCapsule = false);
+    // TODO: 結果表示に遷移
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +32,27 @@ class _TopPageState extends State<TopPage> {
       color: TopLayout.bgColor,
       child: Stack(
         alignment: Alignment.center,
+        clipBehavior: Clip.none,
         children: [
-          const Center(child: GachaBox()),
-          if (!_animationDone)
+          Center(
+            child: GachaBox(
+              onHandleSpinCompleted: _onHandleSpinDone,
+            ),
+          ),
+          if (!_initialPlayed)
             Center(
               child: Gacha(
-                onCompleted: () {
-                  setState(() => _animationDone = true);
-                },
+                assetPath: 'assets/data/data.json',
+                onCompleted: () => setState(() => _initialPlayed = true),
               ),
             ),
-
+          if (_showCapsule)
+            Center(
+              child: Gacha(
+                assetPath: 'assets/data/gacha.json',
+                onCompleted: _onCapsuleCompleted,
+              ),
+            ),
           Positioned(
             bottom: BarStyles.bottomOffset,
             left: 0,
@@ -41,13 +60,7 @@ class _TopPageState extends State<TopPage> {
             child: const GachaBar(),
           ),
 
-          Positioned(
-            top: 16,
-            left: 300,
-            right: null,
-            bottom: 470,
-            child: const ItemButton(),
-          ),
+          const ItemButton(),
         ],
       ),
     );
