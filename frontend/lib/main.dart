@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'app/router.dart';
 import 'auth.dart';
+import 'config/env.dart';
+import 'api/client.dart';
+import 'app_scope.dart';       
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await initAuth();
-  runApp(const MyApp());
+
+  final api = ApiClient(baseUrl: Env.apiBaseUrl);
+  final ticketsApi = ApiClient(baseUrl: Env.tickets);
+
+  runApp(
+    AppScope(
+      api: api,
+      ticketsApi: ticketsApi,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,3 +37,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
