@@ -31,7 +31,7 @@ Future<bool> sendIdTokenToBackend() async {
     final idToken = await user.getIdToken();
 
     final response = await http.post(
-      Uri.parse('https://${Env.apiBaseUrl}/user/jwtToken'),
+      Uri.parse('${Env.apiBaseUrl}/api/user/jwtToken'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'token': idToken}),
     );
@@ -44,8 +44,19 @@ Future<bool> sendIdTokenToBackend() async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('jwt', jwt);
 
-      print('バックエンドJWT取得成功: $jwt');
-      return true;
+      print('バックエンドJWT取得成功: ${jwt.substring(0, 20)}...');
+      print('JWT保存完了');
+
+      final res = await http.post(
+        Uri.parse('${Env.apiBaseUrl}/api/user/'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $jwt', // ← こっちにJWTをのせる
+        },
+      );
+
+      print('ユーザー登録レスポンス: ${res.statusCode} - ${res.body}');
+      return res.statusCode == 200;
     } else {
       print('バックエンド認証失敗: ${response.body}');
       return false;

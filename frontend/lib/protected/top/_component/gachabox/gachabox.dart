@@ -5,9 +5,14 @@ import 'gachabox_styles.dart';
 import 'rotatable_handle.dart';
 
 class GachaBox extends StatelessWidget {
-  const GachaBox({super.key, this.onHandleSpinCompleted});
+  const GachaBox({
+    super.key,
+    this.onHandleSpinCompleted,
+    this.isDisabled = false,
+  });
 
   final VoidCallback? onHandleSpinCompleted;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +27,28 @@ class GachaBox extends StatelessWidget {
           alignment: Alignment.center,
           clipBehavior: Clip.none,
           children: [
-            Image.asset(TopLayout.gachaAsset, width: boxWidth, fit: BoxFit.contain),
+            Image.asset(
+              TopLayout.gachaAsset,
+              width: boxWidth,
+              fit: BoxFit.contain,
+            ),
             Arrow(boxWidth: boxWidth),
             Positioned(
               right: GachaBoxStyles.handleRight,
               bottom: GachaBoxStyles.handleBottom,
-              child: RotatableHandle(
-                boxWidth: boxWidth,
-                onSpinCompleted: onHandleSpinCompleted,
-              ),
+              child: isDisabled
+                  ? Opacity(
+                      opacity: 0.5,
+                      child: Image.asset(
+                        TopLayout.handleAsset,
+                        width: boxWidth * GachaBoxStyles.handleWidthFactor,
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : RotatableHandle(
+                      boxWidth: boxWidth,
+                      onSpinCompleted: onHandleSpinCompleted,
+                    ),
             ),
           ],
         ),
@@ -38,4 +56,3 @@ class GachaBox extends StatelessWidget {
     );
   }
 }
-

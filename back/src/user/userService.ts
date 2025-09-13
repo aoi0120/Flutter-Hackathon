@@ -17,10 +17,10 @@ export const createJwt = async (token: string) => {
 }
 
 export const createUser = async (token: string) => {
-    const decoded = await auth.verifyIdToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { uid: string, role: string };
 
     const uid = decoded.uid;
-    const name = decoded.name || '未設定';
+    const name = '未設定';
 
     const userRef = db.collection("users").doc(uid);
     const userSnap = await userRef.get();
@@ -47,7 +47,7 @@ export const createUser = async (token: string) => {
 };
 
 export const updateName = async (token: string, newName: string) => {
-    const decoded = await auth.verifyIdToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { uid: string, role: string };
     const uid = decoded.uid;
 
     return await db.collection('users').doc(uid).update(
@@ -56,7 +56,7 @@ export const updateName = async (token: string, newName: string) => {
 }
 
 export const userHaveTickets = async (token: string,) => {
-    const decoded = await auth.verifyIdToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { uid: string, role: string };
     const uid = decoded.uid;
 
     const doc = await db.collection('users').doc(uid).get();
@@ -96,7 +96,7 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
 }
 
 export const useTicket = async (token: string, ticket_id: string) => {
-    const decoded = await auth.verifyIdToken(token);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { uid: string, role: string };
     const uid = decoded.uid;
 
     const Ref = db.collection("userTickets").doc(ticket_id);
