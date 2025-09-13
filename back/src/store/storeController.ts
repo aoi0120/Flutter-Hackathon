@@ -39,7 +39,7 @@ router.post("/", async (req: Request,res: Response) =>{
 
     try {
         const result = await storeService.storeLogin(email,pass);
-        res.status(200).json({ message: "店アカウントログイン成功", token:result.token}); 
+        res.status(200).json({ message: "店アカウントログイン成功", token:result.storeToken}); 
     } catch (error) {
         res.status(500).json({ message: "店アカウントログイン失敗"});
     }
