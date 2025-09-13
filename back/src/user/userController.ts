@@ -11,10 +11,10 @@ router.post("/jwtToken", async (req: Request, res: Response) => {
     }
     try {
         const result = await userService.createJwt(token);
-        res.status(500).json({ message: "firebase JWTTokenを独自tokenに変更成功", UserToken: result.userToken})
+        res.status(200).json({ message: "firebase JWTTokenを独自tokenに変更成功", UserToken: result.userToken })
     } catch (error) {
-        res.status(500).json({ message: "firebase JWTTokenを独自tokenに変更失敗"})
-        console.log( error )
+        res.status(500).json({ message: "firebase JWTTokenを独自tokenに変更失敗" })
+        console.log(error)
     }
 })
 
@@ -23,7 +23,7 @@ router.post("/", async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
 
     if (!token) {
-        return res.status(400).json({ message: 'tokenがありません'});
+        return res.status(400).json({ message: 'tokenがありません' });
     }
 
     try {
@@ -41,34 +41,34 @@ router.patch("/", async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
 
     if (!token) {
-        return res.status(400).json({ message: 'tokenがありません'});
+        return res.status(400).json({ message: 'tokenがありません' });
     }
 
     if (!newName) {
-        return res.status(400).json({ message: 'newNameがありません'});
+        return res.status(400).json({ message: 'newNameがありません' });
     }
 
     try {
         await userService.updateName(token, newName);
-        res.status(200).json({ message: 'userName変更完了'});
+        res.status(200).json({ message: 'userName変更完了' });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'userName変更失敗'});
+        res.status(500).json({ message: 'userName変更失敗' });
     }
 });
 
 //所持チケット全表示
-router.get("/", async ( req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
 
     if (!token) {
-        return res.status(400).json({ message: 'tokenがありません'});
+        return res.status(400).json({ message: 'tokenがありません' });
     }
 
     try {
-        const userHaveTickets = await userService.userHaveTickets( token );
+        const userHaveTickets = await userService.userHaveTickets(token);
         if (!userHaveTickets) {
-            return res.status(400).json({ message: 'ticketsデータがありません'});
+            return res.status(400).json({ message: 'ticketsデータがありません' });
         }
         const ticketsInfo = await userService.ticketsInfo(userHaveTickets);
         res.status(200).json({ message: "所持チケット全表示 成功", ticketsInfo });
@@ -79,24 +79,24 @@ router.get("/", async ( req: Request, res: Response) => {
 })
 
 //チケット使用API
-router.patch("/:ticket_id", async ( req: Request, res: Response ) => {
+router.patch("/:ticket_id", async (req: Request, res: Response) => {
     const token = req.headers.authorization?.split('Bearer ')[1];
     const ticket_id = req.params.ticket_id;
 
     if (!token) {
-        return res.status(400).json({ message: 'tokenがありません'});
+        return res.status(400).json({ message: 'tokenがありません' });
     }
 
     if (!ticket_id) {
-        return res.status(400).json({ message: 'ticket_idがありません'});
+        return res.status(400).json({ message: 'ticket_idがありません' });
     }
 
     try {
-        await userService.useTicket( token, ticket_id)
-        res.status(200).json({ message: "チケット使用しました"});
+        await userService.useTicket(token, ticket_id)
+        res.status(200).json({ message: "チケット使用しました" });
     } catch (error) {
-        res.status(500).json({ message: "チケット使用出来ませんでした"});
-        console.log( error );
+        res.status(500).json({ message: "チケット使用出来ませんでした" });
+        console.log(error);
     }
 })
 

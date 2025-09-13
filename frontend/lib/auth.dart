@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/env.dart';
 
 /// Googleサインイン用
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -30,14 +31,14 @@ Future<bool> sendIdTokenToBackend() async {
     final idToken = await user.getIdToken();
 
     final response = await http.post(
-      Uri.parse('https://your-backend.com/auth/google'), // ←自分のAPIに変更
+      Uri.parse('https://${Env.apiBaseUrl}/user/jwtToken'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'token': idToken}),
     );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final jwt = data['jwt'];
+      final jwt = data['UserToken'];
 
       // 端末に保存して後でAPIリクエストに利用
       final prefs = await SharedPreferences.getInstance();

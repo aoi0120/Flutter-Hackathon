@@ -2,9 +2,9 @@ import { db, auth } from "../firebase/firebase";
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
 import jwt from "jsonwebtoken";
 
-export const createJwt = async ( token:string ) => {
+export const createJwt = async (token: string) => {
     const decoded = await auth.verifyIdToken(token);
-    const uid = decoded.sub;
+    const uid = decoded.uid;
 
 
     const userToken = jwt.sign(
@@ -16,7 +16,7 @@ export const createJwt = async ( token:string ) => {
     return { userToken };
 }
 
-export const createUser = async ( token: string ) => {
+export const createUser = async (token: string) => {
     const decoded = await auth.verifyIdToken(token);
 
     const uid = decoded.uid;
@@ -38,7 +38,7 @@ export const createUser = async ( token: string ) => {
             tickets: [],
             gacha_at: Timestamp.fromDate(gachaAt),
         });
-        return { message: "新規登録完了"};
+        return { message: "新規登録完了" };
     } else {
         await userRef.update({
             update_at: FieldValue.serverTimestamp(),
@@ -46,7 +46,7 @@ export const createUser = async ( token: string ) => {
     }
 };
 
-export const updateName = async ( token: string, newName:string ) => {
+export const updateName = async (token: string, newName: string) => {
     const decoded = await auth.verifyIdToken(token);
     const uid = decoded.uid;
 
@@ -55,22 +55,22 @@ export const updateName = async ( token: string, newName:string ) => {
     );
 }
 
-export const userHaveTickets = async ( token: string,) => {
+export const userHaveTickets = async (token: string,) => {
     const decoded = await auth.verifyIdToken(token);
     const uid = decoded.uid;
 
     const doc = await db.collection('users').doc(uid).get();
 
-    const tickets: string[] = doc.get("tickets") || [] ;
+    const tickets: string[] = doc.get("tickets") || [];
 
     return tickets;
 }
 
-export const ticketsInfo = async ( userHaveTickets: string[] ) => {
+export const ticketsInfo = async (userHaveTickets: string[]) => {
     if (userHaveTickets.length === 0) {
         return ({ message: "所持チケットはありません" });
     }
-    const getTickets = userHaveTickets.map( async (uuid: string) => {
+    const getTickets = userHaveTickets.map(async (uuid: string) => {
         const ticketDoc = await db.collection('usersTicket').doc(uuid).get();
         if (ticketDoc.exists) {
             const data = ticketDoc.data();
@@ -79,7 +79,7 @@ export const ticketsInfo = async ( userHaveTickets: string[] ) => {
             }
             return [uuid, ticketDoc.data()];
         } else {
-            return [uuid, null]; 
+            return [uuid, null];
         }
     });
 
@@ -95,14 +95,14 @@ export const ticketsInfo = async ( userHaveTickets: string[] ) => {
     return { haveTicketsInfo };
 }
 
-export const useTicket = async ( token: string, ticket_id: string ) => {
+export const useTicket = async (token: string, ticket_id: string) => {
     const decoded = await auth.verifyIdToken(token);
     const uid = decoded.uid;
 
     const Ref = db.collection("userTickets").doc(ticket_id);
     const Doc = await Ref.get();
 
-    if (Doc.data()?.uid !== uid ) {
+    if (Doc.data()?.uid !== uid) {
         throw new Error("このチケットを使用する権限がありません");
     }
 
