@@ -6,12 +6,12 @@ const router = express.Router();
 //チケットの新規追加
 router.post("/", async ( req: Request, res: Response ) => {
     const authHeader = req.headers.authorization;
-    const { rank_id, prize, expiration_at }  = req.body;
+    const { prize, expiration_at }  = req.body;
 
-    if ( !rank_id || !prize || !expiration_at ) {
+    if ( !prize || !expiration_at ) {
         return res.status(400).json({ message: "必要な情報が抜けています"});
     }
-    const data = { rank_id, prize, expiration_at: new Date(expiration_at) };
+    const data = { prize, expiration_at: new Date(expiration_at) };
 
     if (!authHeader) {
         return res.status(401).json({ message: "Authorization ヘッダーがありません" });

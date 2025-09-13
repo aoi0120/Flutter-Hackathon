@@ -30,6 +30,11 @@ router.post("/", async (req:Request, res:Response) => {
 //タグ取得API
 router.get("/", async (req:Request, res:Response) => {
     try {
+        const token = req.headers.authorization?.split('Bearer ')[1];
+        
+        if (!token) {
+            return res.status(400).json({ message: 'tokenがありません'});
+        }
         const tags = await tagService.getTag(); 
         res.status(200).json({ message: "タグ取得成功", tags});
     } catch (error) {
