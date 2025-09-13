@@ -37,8 +37,8 @@ class _TopPageState extends State<TopPage> {
       print('ガチャ結果: $result');
 
       setState(() {
-        _gachaResult = result['result'];
-        _gachaMessage = result['message'];
+        _gachaResult = result['result']?.toString() ?? '外れ';
+        _gachaMessage = result['message'] ?? 'ガチャ完了';
       });
     } catch (e) {
       print('ガチャ実行エラー: $e');
@@ -64,9 +64,9 @@ class _TopPageState extends State<TopPage> {
 
   String _gachaAnime() {
     if (_gachaResult == "当たり") {
-      return "asset/data/gachaOk.json";
+      return "assets/data/gachaOk.json";
     } else {
-      return "asset/data/gacha.json";
+      return "assets/data/gacha.json";
     }
   }
 
