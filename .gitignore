@@ -123,6 +123,11 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+<<<<<<< HEAD
 
 # local-only env
 lib/config/env.dart
+=======
+frontend/lib/config/env.dart
+.DS_Store
+>>>>>>> 51f4803 (chore: ignore env.dart and .DS_Store)
