@@ -78,7 +78,7 @@ class CouponCard extends StatelessWidget {
                 ),
                 onPressed: onPressedDetails,
                 child: const Text(
-                  'チケット詳細を見る',
+                  'チケットを使う',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black87,
