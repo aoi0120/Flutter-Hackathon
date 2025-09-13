@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'general_login_style.dart';
 import '../auth.dart';
+
+final auth = ValueNotifier<bool>(false);
 
 class GeneralLogin extends StatelessWidget {
   const GeneralLogin({super.key});
@@ -43,21 +47,28 @@ class GeneralLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                 InkWell(
-                      onTap: () {
-                        print('Google認証ボタンを押したよ');
-                        auth.value = true;
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: Image(
-                          image: AssetImage('assets/images/glogin.png'),
-                          width: 300,
-                          // height: 60,
-                          fit: BoxFit.contain,
-                        ),
+                  InkWell(
+                    onTap: () async {
+                      print('Google認証ボタンを押したよ');
+                      final bool result = await signInWithGoogle();
+                      auth.value = result;
+
+                      if (result) {
+                        print('Google認証に成功しました!');
+                      } else {
+                        print('Google認証に失敗しました。');
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Image(
+                        image: AssetImage('assets/images/glogin.png'),
+                        width: 300,
+                        // height: 60,
+                        fit: BoxFit.contain,
                       ),
                     ),
+                  ),
                   const SizedBox(height: 20.0),
                   InkWell(
                     onTap: () => print('商店街の方専用ログイン画面へ'),
@@ -78,4 +89,3 @@ class GeneralLogin extends StatelessWidget {
     );
   }
 }
-
