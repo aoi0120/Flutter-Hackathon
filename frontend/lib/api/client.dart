@@ -45,4 +45,22 @@ class ApiClient {
     if (body is Map<String, dynamic>) return body;
     throw Exception('Unexpected JSON (expected object).');
   }
+
+  Future<Map<String, dynamic>> postJson(
+    String path, {
+    Map<String, dynamic>? body,
+    Map<String, String>? headers,
+  }) async {
+    final res = await _client.post(
+      _url(path),
+      headers: {..._headers, ...?headers},
+      body: body != null ? jsonEncode(body) : null,
+    );
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception('POST $path failed (${res.statusCode}): ${res.body}');
+    }
+    final responseBody = jsonDecode(res.body);
+    if (responseBody is Map<String, dynamic>) return responseBody;
+    throw Exception('Unexpected JSON (expected object).');
+  }
 }

@@ -4,6 +4,8 @@ import './_component/gachabox/gachabox.dart';
 import './_component/gachabar/gachabar.dart';
 import './_component/gachabar/gachabar_styles.dart';
 import './_component/itemButton/item_button.dart';
+import '../../api/service/gacha_service.dart';
+import '../../app_scope.dart';
 import 'layout.dart';
 
 class TopPage extends StatefulWidget {
@@ -16,14 +18,48 @@ class TopPage extends StatefulWidget {
 class _TopPageState extends State<TopPage> {
   bool _initialPlayed = false;
   bool _showCapsule = false;
+  bool _isGachaLoading = false;
+  String? _gachaResult;
+  String? _gachaMessage;
 
-  void _onHandleSpinDone() {
-    setState(() => _showCapsule = true);
+  void _onHandleSpinDone() async {
+    if (_isGachaLoading) return;
+
+    setState(() {
+      _isGachaLoading = true;
+      _showCapsule = true;
+    });
+
+    try {
+      final gachaService = GachaService(AppScope.of(context).gachaApi);
+      final result = await gachaService.playGacha();
+
+      print('ガチャ結果: $result');
+
+      setState(() {
+        _gachaResult = result['result'];
+        _gachaMessage = result['message'];
+      });
+    } catch (e) {
+      print('ガチャ実行エラー: $e');
+      setState(() {
+        _gachaMessage = 'ガチャ実行に失敗しました: $e';
+      });
+    }
   }
 
   void _onCapsuleCompleted() {
-    setState(() => _showCapsule = false);
-    // TODO: 結果表示に遷移
+    setState(() {
+      _showCapsule = false;
+      _isGachaLoading = false;
+    });
+
+    // 結果表示
+    if (_gachaMessage != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(_gachaMessage!)));
+    }
   }
 
   @override
@@ -37,6 +73,7 @@ class _TopPageState extends State<TopPage> {
           Center(
             child: GachaBox(
               onHandleSpinCompleted: _onHandleSpinDone,
+              isDisabled: _isGachaLoading,
             ),
           ),
           if (!_initialPlayed)
@@ -66,4 +103,3 @@ class _TopPageState extends State<TopPage> {
     );
   }
 }
-

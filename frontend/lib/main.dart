@@ -12,8 +12,16 @@ Future<void> main() async {
 
   final api = ApiClient(baseUrl: Env.apiBaseUrl);
   final ticketsApi = ApiClient(baseUrl: Env.ticketsBase);
+  final gachaApi = ApiClient(baseUrl: '${Env.apiBaseUrl}/api/gacha');
 
-  runApp(AppScope(api: api, ticketsApi: ticketsApi, child: const MyApp()));
+  runApp(
+    AppScope(
+      api: api,
+      ticketsApi: ticketsApi,
+      gachaApi: gachaApi,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
