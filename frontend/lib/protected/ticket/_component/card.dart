@@ -25,6 +25,24 @@ class CouponCard extends StatelessWidget {
   final VoidCallback? onTapLocation;
   final VoidCallback? onPressedDetails;
 
+  String _formatDateText(String dateText) {
+    try {
+      final regex = RegExp(r'(\d+)月(\d+)日');
+      final match = regex.firstMatch(dateText);
+      if (match != null) {
+        final month = int.parse(match.group(1)!);
+        final day = int.parse(match.group(2)!);
+        final now = DateTime.now();
+        final year = now.year;
+        final date = DateTime(year, month, day);
+        return DateFormat('yyyy/MM/dd').format(date);
+      }
+    } catch (e) {
+      print('日付フォーマットエラー: $e');
+    }
+    return dateText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,7 +68,7 @@ class CouponCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  DateFormat('yyyy/MM/dd').format(DateTime.parse(dateText)),
+                  _formatDateText(dateText),
                   style: TicketLayout.infoTextStyle,
                 ),
               ],

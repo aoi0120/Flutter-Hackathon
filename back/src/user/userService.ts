@@ -79,12 +79,41 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
             if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
                 data.expiration_at = data.expiration_at.toDate().toISOString();
             }
-            
-            if (data?.point && typeof data.point.latitude === "number" && typeof data.point.longitude === "number") {
-                data.point = {
-                    lat: data.point.latitude,
-                    lng: data.point.longitude
-                };
+
+            // 座標データの処理
+            if (data?.point) {
+                console.log('元の座標データ:', JSON.stringify(data.point));
+
+                if (typeof data.point.latitude === "number" && typeof data.point.longitude === "number") {
+                    // 既存の形式: {latitude: number, longitude: number}
+                    console.log('既存形式で処理');
+                    data.point = {
+                        lat: data.point.latitude,
+                        lng: data.point.longitude
+                    };
+                } else if (Array.isArray(data.point) && data.point.length === 2) {
+                    // 新しい形式: [lat, lng] または [lat° N, lng° E]
+                    console.log('配列形式で処理');
+                    const latStr = data.point[0].toString();
+                    const lngStr = data.point[1].toString();
+                    console.log('lat文字列:', latStr, 'lng文字列:', lngStr);
+
+                    // 度分秒形式をパース
+                    const lat = parseFloat(latStr.replace(/°\s*[NS]/i, ''));
+                    const lng = parseFloat(lngStr.replace(/°\s*[EW]/i, ''));
+                    console.log('パース後 lat:', lat, 'lng:', lng);
+
+                    data.point = {
+                        lat: lat,
+                        lng: lng
+                    };
+                } else {
+                    console.log('未知の座標形式:', typeof data.point, data.point);
+                }
+
+                console.log('変換後座標:', JSON.stringify(data.point));
+            } else {
+                console.log('座標データが存在しません');
             }
 
             const enrichedData = {
