@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../layout.dart';
 import 'card_styles.dart';
+import 'package:intl/intl.dart';
 
 class CouponCard extends StatelessWidget {
   const CouponCard({
@@ -38,18 +39,27 @@ class CouponCard extends StatelessWidget {
 
             Row(
               children: [
-                const Icon(Icons.calendar_today_outlined,
-                    size: CardStyle.iconSize, color: CardStyle.iconColor),
+                const Icon(
+                  Icons.calendar_today_outlined,
+                  size: CardStyle.iconSize,
+                  color: CardStyle.iconColor,
+                ),
                 const SizedBox(width: 8),
-                Text(dateText, style: TicketLayout.infoTextStyle),
+                Text(
+                  DateFormat('yyyy/MM/dd').format(DateTime.parse(dateText)),
+                  style: TicketLayout.infoTextStyle,
+                ),
               ],
             ),
             const SizedBox(height: CardStyle.spacingBetweenInfo),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.place_outlined,
-                    size: CardStyle.iconSize, color: CardStyle.iconColor),
+                const Icon(
+                  Icons.place_outlined,
+                  size: CardStyle.iconSize,
+                  color: CardStyle.iconColor,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: InkWell(
@@ -93,4 +103,3 @@ class CouponCard extends StatelessWidget {
     );
   }
 }
-
