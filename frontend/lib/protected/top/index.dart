@@ -37,8 +37,16 @@ class _TopPageState extends State<TopPage> {
       print('ガチャ結果: $result');
 
       setState(() {
-        _gachaResult = result['result']?.toString() ?? '外れ';
-        _gachaMessage = result['message'] ?? 'ガチャ完了';
+        // レスポンス構造を正しく処理
+        if (result['result'] is Map) {
+          // resultがMapの場合（当たりの場合）
+          _gachaResult = result['result']['result'] ?? '外れ';
+          _gachaMessage = result['message'] ?? 'ガチャ完了';
+        } else {
+          // resultがStringの場合（外れの場合）
+          _gachaResult = result['result']?.toString() ?? '外れ';
+          _gachaMessage = result['message'] ?? 'ガチャ完了';
+        }
       });
     } catch (e) {
       print('ガチャ実行エラー: $e');
@@ -64,9 +72,9 @@ class _TopPageState extends State<TopPage> {
 
   String _gachaAnime() {
     if (_gachaResult == "当たり") {
-      return "assets/data/gachaOk.json";
+      return 'assets/data/win.json';
     } else {
-      return "assets/data/gacha.json";
+      return 'assets/data/lose.json';
     }
   }
 

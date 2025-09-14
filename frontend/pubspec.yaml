@@ -66,8 +66,8 @@ flutter:
 
     assets:
         - assets/data/data.json
-        - assets/data/gacha.json
-        - assets/data/gachaOk.json
+        - assets/data/win.json
+        - assets/data/lose.json
         - assets/images/
 
     # To add assets to your application, add an assets section, like this:
