@@ -71,7 +71,7 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
         return ({ message: "所持チケットはありません" });
     }
     const getTickets = userHaveTickets.map(async (uuid: string) => {
-        const ticketDoc = await db.collection('usersTicket').doc(uuid).get();
+        const ticketDoc = await db.collection('userTicket').doc(uuid).get();
         if (ticketDoc.exists) {
             const data = ticketDoc.data();
             if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
