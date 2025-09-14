@@ -25,7 +25,9 @@ export const gachapon = async (token: string) => {
             console.log('経過時間（時間）:', hours);
 
             if (hours < 24) {
-                const remainingTime = Math.ceil(24 - hours)
+                // const remainingTime = Math.ceil(24 - hours)
+                //test
+                const remainingTime = 0;
                 console.log('24時間以内 - 残り時間:', remainingTime);
                 return { message: `あと${remainingTime}時間後にガチャを引けます` };
             }
