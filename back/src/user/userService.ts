@@ -78,12 +78,29 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
             if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
                 data.expiration_at = data.expiration_at.toDate().toISOString();
             }
-            
-            if (data?.point && typeof data.point.latitude === "number" && typeof data.point.longitude === "number") {
-                data.point = {
-                    lat: data.point.latitude,
-                    lng: data.point.longitude
-                };
+
+            // 座標データの処理
+            if (data?.point) {
+                if (typeof data.point.latitude === "number" && typeof data.point.longitude === "number") {
+                    // 既存の形式: {latitude: number, longitude: number}
+                    data.point = {
+                        lat: data.point.latitude,
+                        lng: data.point.longitude
+                    };
+                } else if (Array.isArray(data.point) && data.point.length === 2) {
+                    // 新しい形式: [lat, lng] または [lat° N, lng° E]
+                    const latStr = data.point[0].toString();
+                    const lngStr = data.point[1].toString();
+
+                    // 度分秒形式をパース
+                    const lat = parseFloat(latStr.replace(/°\s*[NS]/i, ''));
+                    const lng = parseFloat(lngStr.replace(/°\s*[EW]/i, ''));
+
+                    data.point = {
+                        lat: lat,
+                        lng: lng
+                    };
+                }
             }
             return [uuid, data];
         } else {
