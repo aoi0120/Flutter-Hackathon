@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'item_button_style.dart';
 import 'round_button.dart';
+import '../announce_modal/announce_modal.dart';
 
 class _ButtonItem extends StatelessWidget {
   const _ButtonItem({
@@ -37,10 +38,16 @@ class ItemButton extends StatelessWidget {
         padding: const EdgeInsets.only(right: 7.0, bottom: 570),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             _ButtonItem(
               text: 'お知らせ',
               iconAsset: ItemButtonStyle.ellipsesIcon,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const AnnounceModal(),
+                );
+              },
             ),
           ],
         ),
@@ -48,4 +55,3 @@ class ItemButton extends StatelessWidget {
     );
   }
 }
-
