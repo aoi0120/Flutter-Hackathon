@@ -12,7 +12,7 @@ router.post("/", async (req: Request, res: Response) => {
 
     try {
         const result = await gachaService.gachapon(token);
-        res.status(200).json({ message: "ガチャポンAPIが正しく動作しました", result })
+        res.status(200).json({ result })
     } catch (error) {
         res.status(500).json({ message: "ガチャポンAPIが正しく動作しませんでした" });
         console.log( error );
