@@ -90,7 +90,7 @@ class _TicketPageState extends State<TicketPage> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: CouponCard(
                         label: ticket.prize,
-                        dateText: ticket.expirationAt,
+                        dateText: '${ticket.expirationAt.month}月${ticket.expirationAt.day}日',
                         areaText: '${ticket.storeName}  ',
                         venueText: '',
                         onTapLocation: () => openMap(

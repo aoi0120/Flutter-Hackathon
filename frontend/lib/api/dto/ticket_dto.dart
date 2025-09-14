@@ -1,6 +1,6 @@
 class TicketDto {
   final String prize;
-  final String expirationAt;
+  final DateTime expirationAt;
   final String storeName;
   final double latitude;
   final double longitude;
@@ -15,7 +15,7 @@ class TicketDto {
 
   factory TicketDto.fromJson(Map<String, dynamic> j) => TicketDto(
     prize: j['prize'] as String? ?? '',
-    expirationAt: j['expiration_at']?.toString() ?? '',
+    expirationAt: DateTime.parse(j['expiration_at'] as String).toLocal(),
     storeName: j['store_name'] as String? ?? '',
     latitude: (j['point']?['lat'] as num?)?.toDouble() ?? 0.0,
     longitude: (j['point']?['lng'] as num?)?.toDouble() ?? 0.0,
