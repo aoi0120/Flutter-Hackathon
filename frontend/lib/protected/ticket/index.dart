@@ -90,7 +90,8 @@ class _TicketPageState extends State<TicketPage> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: CouponCard(
                         label: ticket.prize,
-                        dateText: '${ticket.expirationAt.month}月${ticket.expirationAt.day}日',
+                        dateText:
+                            '${ticket.expirationAt.month}月${ticket.expirationAt.day}日',
                         areaText: '${ticket.storeName}  ',
                         venueText: '',
                         onTapLocation: () => openMap(
@@ -99,9 +100,10 @@ class _TicketPageState extends State<TicketPage> {
                           label: ticket.storeName,
                         ),
                         onPressedDetails: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('チケット詳細（TODO）')),
-                          );
+                          // チケット詳細（メッセージ無効化）
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(content: Text('チケット詳細（TODO）')),
+                          // );
                         },
                       ),
                     ),

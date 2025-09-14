@@ -20,7 +20,7 @@ class _TopPageState extends State<TopPage> {
   bool _showCapsule = false;
   bool _isGachaLoading = false;
   String? _gachaResult;
-  String? _gachaMessage;
+  // String? _gachaMessage; // メッセージ表示無効化のためコメントアウト
 
   void _onHandleSpinDone() async {
     if (_isGachaLoading) return;
@@ -34,24 +34,24 @@ class _TopPageState extends State<TopPage> {
       final gachaService = GachaService(AppScope.of(context).gachaApi);
       final result = await gachaService.playGacha();
 
-      print('ガチャ結果: $result');
+      // ガチャ結果（ログ無効化）
 
       setState(() {
         // レスポンス構造を正しく処理
         if (result['result'] is Map) {
           // resultがMapの場合（当たりの場合）
           _gachaResult = result['result']['result'] ?? '外れ';
-          _gachaMessage = result['message'] ?? 'ガチャ完了';
+          // _gachaMessage = result['message'] ?? 'ガチャ完了'; // メッセージ表示無効化
         } else {
           // resultがStringの場合（外れの場合）
           _gachaResult = result['result']?.toString() ?? '外れ';
-          _gachaMessage = result['message'] ?? 'ガチャ完了';
+          // _gachaMessage = result['message'] ?? 'ガチャ完了'; // メッセージ表示無効化
         }
       });
     } catch (e) {
-      print('ガチャ実行エラー: $e');
+      // ガチャ実行エラー（ログ無効化）
       setState(() {
-        _gachaMessage = 'ガチャ実行に失敗しました: $e';
+        // _gachaMessage = 'ガチャ実行に失敗しました: $e'; // メッセージ表示無効化
       });
     }
   }
@@ -62,12 +62,12 @@ class _TopPageState extends State<TopPage> {
       _isGachaLoading = false;
     });
 
-    // 結果表示
-    if (_gachaMessage != null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(_gachaMessage!)));
-    }
+    // 結果表示（無効化）
+    // if (_gachaMessage != null) {
+    //   ScaffoldMessenger.of(
+    //     context,
+    //   ).showSnackBar(SnackBar(content: Text(_gachaMessage!)));
+    // }
   }
 
   String _gachaAnime() {
