@@ -45,6 +45,7 @@ Future<bool> sendIdTokenToBackend() async {
       await prefs.setString('jwt', jwt);
 
       print('バックエンドJWT取得成功: ${jwt.substring(0, 20)}...');
+      print('JWT: $jwt');
       print('JWT保存完了');
 
       final res = await http.post(
