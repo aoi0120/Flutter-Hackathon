@@ -75,13 +75,9 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
         if (ticketDoc.exists) {
             const data = ticketDoc.data();
 
-
             if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
                 data.expiration_at = data.expiration_at.toDate().toISOString();
             }
-
-
-
             
             if (data?.point && typeof data.point.latitude === "number" && typeof data.point.longitude === "number") {
                 data.point = {
