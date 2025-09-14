@@ -93,6 +93,7 @@ class _TicketPageState extends State<TicketPage> {
                         dateText: '${ticket.expirationAt.month}月${ticket.expirationAt.day}日',
                         areaText: '${ticket.storeName}  ',
                         venueText: '',
+                        ticketId: '',
                         onTapLocation: () => openMap(
                           lat: ticket.latitude,
                           lng: ticket.longitude,

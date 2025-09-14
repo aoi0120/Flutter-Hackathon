@@ -75,6 +75,7 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
         if (ticketDoc.exists) {
             const data = ticketDoc.data();
 
+
             if (data?.expiration_at && typeof data.expiration_at.toDate === "function") {
                 data.expiration_at = data.expiration_at.toDate().toISOString();
             }
@@ -85,6 +86,11 @@ export const ticketsInfo = async (userHaveTickets: string[]) => {
                     lng: data.point.longitude
                 };
             }
+
+            const enrichedData = {
+                ...data,         
+                ticket_id: uuid, // 追加要素
+            };
             return [uuid, data];
         } else {
             return [uuid, null];
