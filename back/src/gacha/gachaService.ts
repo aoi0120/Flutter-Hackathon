@@ -89,7 +89,9 @@ export const gachapon = async (token: string) => {
             const storeNameRef = await db.collection("stores").doc(store_id);
             const storeNameDoc = await storeNameRef.get();
             const store_name = storeNameDoc.data()?.name;
+            const store_position = storeNameDoc.data()?.position;
             console.log('ストア名:', store_name);
+            console.log('ストア座標:', store_position);
 
             console.log('ユーザーチケット作成開始');
             const expirationDate = new Date(TicketInfo.expiration_at);
@@ -103,7 +105,8 @@ export const gachapon = async (token: string) => {
                 user_id: uid,
                 prize: TicketInfo.prize,
                 expiration_at: Timestamp.fromDate(expirationDate),
-                effective: true
+                effective: true,
+                point: store_position
             });
 
             const userTicket_id = createUserTicket.id;
