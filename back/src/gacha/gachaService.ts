@@ -24,13 +24,11 @@ export const gachapon = async (token: string) => {
             const hours = ms / (1000 * 60 * 60);
             console.log('経過時間（時間）:', hours);
 
-            if (hours < 24) {
-                // const remainingTime = Math.ceil(24 - hours)
-                //test
-                const remainingTime = 0;
-                console.log('24時間以内 - 残り時間:', remainingTime);
-                return { message: `あと${remainingTime}時間後にガチャを引けます` };
-            }
+            // if (hours < 24) {
+            //     const remainingTime = Math.ceil(24 - hours)
+            //     console.log('24時間以内 - 残り時間:', remainingTime);
+            //     return { message: `あと${remainingTime}時間後にガチャを引けます` };
+            // }
 
             console.log('ストアデータ取得開始');
             const storedb = db.collection("stores");
