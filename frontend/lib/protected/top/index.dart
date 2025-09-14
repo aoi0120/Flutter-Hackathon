@@ -34,12 +34,8 @@ class _TopPageState extends State<TopPage> {
       final gachaService = GachaService(AppScope.of(context).gachaApi);
       final result = await gachaService.playGacha();
 
-      // ガチャ結果（ログ無効化）
-
       setState(() {
-        // レスポンス構造を正しく処理
         if (result['result'] is Map) {
-          // resultがMapの場合（当たりの場合）
           _gachaResult = result['result']['result'] ?? '外れ';
           // _gachaMessage = result['message'] ?? 'ガチャ完了'; // メッセージ表示無効化
         } else {
